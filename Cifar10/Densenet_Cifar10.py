@@ -25,7 +25,7 @@ iteration = 782
 
 test_iteration = 10
 
-total_epochs = 300
+total_epochs = 3
 
 def conv_layer(input, filter, kernel, stride=1, layer_name="conv"):
     with tf.name_scope(layer_name):
