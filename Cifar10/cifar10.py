@@ -21,47 +21,6 @@ img_channels = 3
 
 
 
-def download_data():
-    dirname = 'cifar-10-batches-py'
-    origin = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
-    fname = 'cifar-10-python.tar.gz'
-    fpath = './' + dirname
-
-    download = False
-    if os.path.exists(fpath) or os.path.isfile(fname):
-        download = False
-        print("DataSet aready exist!")
-    else:
-        download = True
-    if download:
-        print('Downloading data from', origin)
-        import urllib.request
-        import tarfile
-
-        def reporthook(count, block_size, total_size):
-            global start_time
-            if count == 0:
-                start_time = time.time()
-                return
-            duration = time.time() - start_time
-            progress_size = int(count * block_size)
-            speed = int(progress_size / (1024 * duration))
-            percent = min(int(count * block_size * 100 / total_size), 100)
-            sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
-                             (percent, progress_size / (1024 * 1024), speed, duration))
-            sys.stdout.flush()
-
-        urllib.request.urlretrieve(origin, fname, reporthook)
-        print('Download finished. Start extract!', origin)
-        if (fname.endswith("tar.gz")):
-            tar = tarfile.open(fname, "r:gz")
-            tar.extractall()
-            tar.close()
-        elif (fname.endswith("tar")):
-            tar = tarfile.open(fname, "r:")
-            tar.extractall()
-            tar.close()
-
 
 def unpickle(file):
     with open(file, 'rb') as fo:
@@ -92,7 +51,6 @@ def load_data(files, data_dir, label_count):
 
 def prepare_data():
     print("======Loading data======")
-    download_data()
     data_dir = './cifar-10-batches-py'
     image_dim = image_size * image_size * img_channels
     meta = unpickle(data_dir + '/batches.meta')
